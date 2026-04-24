@@ -428,6 +428,10 @@ body {
   }
   .tab-nav { min-width: 100%; }
   .tab-item { padding: 0.7rem 1rem; font-size: 0.8rem; }
+  .stats-dashboard { gap: 0.5rem; margin-bottom: 1.5rem; }
+  .stat-card { padding: 0.6rem 0.8rem; min-width: 80px; border-radius: 12px; }
+  .stat-value { font-size: 1.2rem; }
+  .stat-label { font-size: 0.55rem; }
   .member-grid { grid-template-columns: 1fr; gap: 1rem; padding: 0 0.5rem 5rem; }
   .member-card { padding: 1rem; }
   .member-photo, .member-photo-placeholder { width: 60px; height: 60px; }
