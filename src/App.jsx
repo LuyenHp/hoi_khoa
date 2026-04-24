@@ -49,16 +49,28 @@ export default function App() {
     const element = document.getElementById('qr-capture-area')
     if (element) {
       try {
-        const dataUrl = await htmlToImage.toPng(element, { pixelRatio: 2 })
+        // Đợi logo và QR hoàn thiện render
+        await new Promise(resolve => setTimeout(resolve, 800))
+        
+        const dataUrl = await htmlToImage.toPng(element, { 
+          pixelRatio: 3, 
+          backgroundColor: '#ffffff',
+          cacheBust: true,
+        })
+        
         const link = document.createElement('a')
-        link.download = 'Thiep-Moi-20-Nam.png'
+        link.download = `Thiep-Moi-Hoi-Khoa.png`
         link.href = dataUrl
+        document.body.appendChild(link)
         link.click()
+        document.body.removeChild(link)
       } catch (err) {
-        alert('Lỗi khi tải ảnh!')
+        console.error('Download error:', err)
+        alert('Có lỗi khi tạo ảnh thiệp, vui lòng thử lại!')
       }
     }
   }
+
 
   return (
     <div className="app-container">
