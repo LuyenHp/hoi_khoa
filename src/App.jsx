@@ -26,6 +26,13 @@ export default function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Kiểm tra định dạng số điện thoại Việt Nam (10 số, bắt đầu bằng 0, đầu số 3,5,7,8,9)
+    const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/
+    if (!phoneRegex.test(formData.phone)) {
+      return alert('Số điện thoại không đúng định dạng Việt Nam (phải có 10 chữ số và bắt đầu bằng 03, 05, 07, 08 hoặc 09)!')
+    }
+
     if (!formData.class_name) return alert('Vui lòng chọn lớp!')
     setLoading(true)
     const { error } = await supabase.from('alumni_registrations').insert([formData])
@@ -98,7 +105,18 @@ export default function App() {
                 </div>
                 <div className="form-group" style={{ marginBottom: 0 }}>
                   <label className="label">Số điện thoại</label>
-                  <input required type="tel" className="input" onChange={e => setFormData({...formData, phone: e.target.value})} placeholder="09xx..." />
+                  <input 
+                    required 
+                    type="tel" 
+                    className="input" 
+                    value={formData.phone}
+                    maxLength={10}
+                    onChange={e => {
+                      const val = e.target.value.replace(/\D/g, '') // Chỉ giữ lại số
+                      setFormData({...formData, phone: val})
+                    }} 
+                    placeholder="09xx..." 
+                  />
                 </div>
               </div>
               
