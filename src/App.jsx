@@ -18,6 +18,10 @@ import confetti from 'canvas-confetti'
 import { QRCodeCanvas } from 'qrcode.react'
 import * as htmlToImage from 'html-to-image'
 
+import backdropImg from './assets/backdrop.png'
+import logoImg from './assets/vite.svg'
+
+
 
 const CLASSES = ['9A', '9B', '9C', '9D', '9E']
 
@@ -86,9 +90,10 @@ export default function App() {
       <div 
         className="background-container" 
         style={{ 
-          backgroundImage: `url('./src/assets/backdrop.png')`,
+          backgroundImage: `url(${backdropImg})`,
           opacity: 1
         }}
+
       />
 
       
@@ -287,10 +292,11 @@ export default function App() {
               <div 
                 className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{ 
-                  backgroundImage: `url('./src/assets/backdrop.png')`,
+                  backgroundImage: `url(${backdropImg})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
                 }}
+
               />
               
               <div className="relative p-10 text-center space-y-8">
@@ -309,13 +315,14 @@ export default function App() {
                       bgColor={"#ffffff"}
                       fgColor={"#1e293b"}
                       imageSettings={{
-                        src: "./src/assets/vite.svg",
+                        src: logoImg,
                         x: undefined,
                         y: undefined,
                         height: 44,
                         width: 44,
                         excavate: true,
                       }}
+
                     />
                 </div>
 
