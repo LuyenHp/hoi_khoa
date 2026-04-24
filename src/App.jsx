@@ -126,8 +126,9 @@ export default function App() {
                 transition={{ duration: 0.5 }}
               >
                 <div className="flex justify-center mb-4">
-                  <img src={logoImg} alt="Logo" className="w-20 h-20 object-contain shadow-md rounded-full bg-white p-1" />
+                  <img src={logoImg} alt="Logo" className="w-16 h-16 object-contain shadow-sm rounded-full bg-white p-1" />
                 </div>
+
 
 
                 <h1 className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-2 tracking-tight">
@@ -335,10 +336,11 @@ export default function App() {
                       fgColor={"#1e293b"}
                     />
                   </div>
-                  {/* Overlay Logo with White Outline to blend better */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full p-0.5 shadow-sm border-2 border-white overflow-hidden">
+                  {/* Overlay Logo - Smaller and more balanced */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full p-0.5 shadow-sm border border-slate-100 overflow-hidden">
                     <img src={logoImg} alt="QR Logo" className="w-full h-full object-cover scale-110" />
                   </div>
+
                 </div>
 
 
@@ -358,21 +360,25 @@ export default function App() {
             </div>
 
 
-            {/* Actions */}
-            <div className="mt-6 flex gap-4">
-              <button 
+            {/* Actions - Optimized Experience */}
+            <div className="mt-8 flex flex-col gap-3">
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleDownloadQR}
-                className="btn-primary flex-1 py-3"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-2xl shadow-xl flex items-center justify-center gap-3 transition-all cursor-pointer"
               >
-                <Download size={18} /> Tải ảnh về
-              </button>
+                <Download size={20} /> Tải thiệp mời (Ảnh PNG)
+              </motion.button>
+              
               <button 
                 onClick={() => setShowQR(false)}
-                className="bg-white/20 backdrop-blur-md text-white p-3 rounded-2xl hover:bg-white/30 transition-all"
+                className="text-gray-400 hover:text-gray-600 font-medium py-2 transition-all flex items-center justify-center gap-2"
               >
-                <X size={24} />
+                <X size={16} /> Đóng cửa sổ
               </button>
             </div>
+
           </motion.div>
         </motion.div>
       )}
