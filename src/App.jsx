@@ -24,6 +24,7 @@ export default function App() {
   const [submitted, setSubmitted] = useState(false)
   const [showQR, setShowQR] = useState(false)
   const [capturedImage, setCapturedImage] = useState(null)
+  const [userPhoto, setUserPhoto] = useState(null)
 
   useEffect(() => {
     fetch('https://provinces.open-api.vn/api/p/')
@@ -31,6 +32,17 @@ export default function App() {
       .then(data => setProvinces(data))
       .catch(err => console.error(err))
   }, [])
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setUserPhoto(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -174,6 +186,31 @@ export default function App() {
                   <input required className="input" onChange={e => setFormData({...formData, company: e.target.value})} placeholder="Đơn vị công tác" />
                 </div>
               </div>
+              <div className="form-group">
+                <label className="label">Ảnh kỷ niệm (Không bắt buộc)</label>
+                <div 
+                  onClick={() => document.getElementById('photo-input').click()}
+                  style={{ 
+                    border: '2px dashed #e2e8f0', 
+                    borderRadius: '12px', 
+                    padding: '1rem', 
+                    textAlign: 'center', 
+                    cursor: 'pointer',
+                    background: userPhoto ? '#f8fafc' : 'white'
+                  }}
+                >
+                  {userPhoto ? (
+                    <img src={userPhoto} alt="Preview" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto' }} />
+                  ) : (
+                    <div style={{ color: '#64748b' }}>
+                      <Send size={24} style={{ marginBottom: '4px', transform: 'rotate(-45deg)' }} />
+                      <p style={{ fontSize: '0.8rem' }}>Chụp hoặc Tải ảnh của bạn</p>
+                    </div>
+                  )}
+                  <input id="photo-input" type="file" accept="image/*" capture="user" hidden onChange={handlePhotoChange} />
+                </div>
+              </div>
+
               <button disabled={loading} className="btn-submit">{loading ? 'Đang gửi...' : 'GỬI THÔNG TIN'}</button>
             </form>
           </motion.div>
@@ -204,9 +241,16 @@ export default function App() {
                 </div>
               ) : (
                 <>
-                  <div id="qr-capture-area" style={{ background: 'white', padding: '2rem 1rem', borderRadius: '15px' }}>
+                  <div id="qr-capture-area" style={{ background: 'white', padding: '2.5rem 1rem', borderRadius: '15px' }}>
                     <div style={{ textAlign: 'center' }}>
-                      <img src={logoImg} alt="Logo" style={{ width: '50px', marginBottom: '0.5rem', mixBlendMode: 'multiply' }} />
+                      {userPhoto ? (
+                        <div style={{ position: 'relative', width: '80px', height: '80px', margin: '0 auto 1rem' }}>
+                          <img src={userPhoto} alt="User" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', border: '3px solid #0072d2' }} />
+                          <img src={logoImg} style={{ position: 'absolute', bottom: 0, right: 0, width: '25px', height: '25px', mixBlendMode: 'multiply', background: 'white', borderRadius: '50%' }} alt="Logo" />
+                        </div>
+                      ) : (
+                        <img src={logoImg} alt="Logo" style={{ width: '50px', marginBottom: '0.5rem', mixBlendMode: 'multiply' }} />
+                      )}
                       <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>THƯ MỜI HỘI KHÓA</h3>
                       <p className="script-text" style={{ fontSize: '2rem', margin: '0.5rem 0' }}>Ngày Trở Về</p>
                       
