@@ -278,10 +278,14 @@ export default function App() {
             onClick={e => e.stopPropagation()}
           >
             {/* The Downloadable Card */}
-            <div id="qr-card" className="bg-white rounded-3xl overflow-hidden shadow-2xl relative">
+            <div 
+              id="qr-card" 
+              className="rounded-3xl overflow-hidden shadow-2xl relative"
+              style={{ backgroundColor: '#ffffff' }}
+            >
               {/* Card Background Overlay */}
               <div 
-                className="absolute inset-0 opacity-20 pointer-events-none"
+                className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{ 
                   backgroundImage: `url('./src/assets/backdrop.png')`,
                   backgroundSize: 'cover',
@@ -289,41 +293,47 @@ export default function App() {
                 }}
               />
               
-              <div className="relative p-8 text-center space-y-6">
-                <div className="space-y-1">
-                  <h3 className="text-2xl font-extrabold text-blue-600 tracking-tight">THIỆP MỜI</h3>
-                  <p className="script-text text-3xl">Hội Khóa 20 Năm</p>
+              <div className="relative p-10 text-center space-y-8">
+                <div className="space-y-2">
+                  <h3 className="text-3xl font-extrabold text-blue-600 tracking-wider">THIỆP MỜI</h3>
+                  <div className="h-1 w-16 bg-red-500 mx-auto rounded-full" />
+                  <p className="script-text text-4xl">Hội Khóa 20 Năm</p>
                 </div>
 
-                <div className="bg-white p-6 inline-block rounded-3xl shadow-inner border-2 border-blue-100 mx-auto">
+                <div className="bg-white p-6 inline-block rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-4 border-blue-50/50 mx-auto">
                     <QRCodeCanvas 
                       value={window.location.href} 
-                      size={180}
+                      size={200}
                       level={"H"}
                       includeMargin={false}
+                      bgColor={"#ffffff"}
+                      fgColor={"#1e293b"}
                       imageSettings={{
                         src: "./src/assets/vite.svg",
                         x: undefined,
                         y: undefined,
-                        height: 40,
-                        width: 40,
+                        height: 44,
+                        width: 44,
                         excavate: true,
                       }}
                     />
                 </div>
 
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold text-gray-700">Quét mã để đăng ký tham dự</p>
-                  <p className="text-xs text-blue-500 font-medium tracking-widest uppercase">20nam.gdo.vn</p>
+                <div className="space-y-3">
+                  <p className="text-lg font-bold text-slate-800">Quét mã để đăng ký</p>
+                  <div className="px-4 py-2 bg-blue-50 rounded-full inline-block">
+                    <p className="text-xs text-blue-600 font-bold tracking-[0.2em] uppercase">20nam.gdo.vn</p>
+                  </div>
                 </div>
 
-                <div className="pt-4 border-t border-gray-100">
-                  <p className="text-[10px] text-gray-400 italic">
-                    \"Thanh xuân của chúng ta đẹp nhất là khi ở bên nhau\"
+                <div className="pt-6 border-t border-slate-100">
+                  <p className="text-sm text-slate-400 font-medium italic leading-relaxed">
+                    \"Thanh xuân của chúng ta đẹp nhất<br/>là khi ở bên nhau\"
                   </p>
                 </div>
               </div>
             </div>
+
 
             {/* Actions */}
             <div className="mt-6 flex gap-4">
