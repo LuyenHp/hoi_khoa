@@ -14,7 +14,7 @@ import {
   X
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
-import { QRCodeSVG } from 'qrcode.react'
+import { QRCodeCanvas } from 'qrcode.react'
 import * as htmlToImage from 'html-to-image'
 
 import backdropImg from './assets/backdrop.png'
@@ -47,29 +47,23 @@ export default function App() {
 
   const handleDownloadQR = async () => {
     const element = document.getElementById('qr-capture-area')
-    if (element) {
-      try {
-        // Đợi logo và QR hoàn thiện render
-        await new Promise(resolve => setTimeout(resolve, 500))
-        
-        const dataUrl = await htmlToImage.toPng(element, { 
-          pixelRatio: 2, 
-          backgroundColor: '#ffffff'
-        })
-        
+    if (!element) return alert('Không tìm thấy vùng thiệp mời!')
+    
+    try {
+      alert('Đang tạo ảnh, vui lòng đợi trong giây lát...')
+      const dataUrl = await htmlToImage.toPng(element, { pixelRatio: 2, backgroundColor: '#ffffff' })
+      if (dataUrl) {
         const link = document.createElement('a')
-        link.download = 'Thiep-Moi-Hoi-Khoa.png'
+        link.download = 'ThiepMoi.png'
         link.href = dataUrl
         link.click()
-      } catch (err) {
-        console.error('Download error:', err)
-        alert('Có lỗi khi tải ảnh thiệp!')
+      } else {
+        alert('Không thể tạo dữ liệu ảnh!')
       }
+    } catch (err) {
+      alert('Lỗi khi tải: ' + err.message)
     }
   }
-
-
-
 
   return (
     <div className="app-container">
@@ -139,12 +133,10 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Floating Button */}
       <div className="float-btn pulse-ani" onClick={() => setShowQR(true)}>
         <QrCode size={32} />
       </div>
 
-      {/* QR Modal */}
       <AnimatePresence>
         {showQR && (
           <div className="modal-overlay" onClick={() => setShowQR(false)}>
@@ -153,7 +145,7 @@ export default function App() {
                 <img src={logoImg} alt="Logo" style={{ width: '50px', marginBottom: '1rem', mixBlendMode: 'multiply' }} />
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>THƯ MỜI HỘI KHÓA</h3>
                 <div className="qr-container">
-                  <QRCodeSVG 
+                  <QRCodeCanvas 
                     value="https://20nam.gdo.vn" 
                     size={220} 
                     level="H" 
