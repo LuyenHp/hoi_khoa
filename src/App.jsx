@@ -4,7 +4,8 @@ import { supabase } from './utils/supabase'
 import { 
   CheckCircle2, 
   QrCode,
-  Download
+  Download,
+  Send
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { QRCodeSVG } from 'qrcode.react'
