@@ -34,8 +34,9 @@ body {
   min-height: 100vh;
   padding: 2rem 1rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
 }
 
@@ -379,8 +380,8 @@ body {
   .member-grid { grid-template-columns: 1fr; gap: 1rem; padding: 0 0.5rem 5rem; }
   .member-card { padding: 1rem; }
   .member-photo, .member-photo-placeholder { width: 60px; height: 60px; }
-  .app-container { padding: 0.5rem; padding-top: 1rem; }
-  .form-card { border-radius: 12px; height: auto; max-height: 98vh; width: 100%; }
+  .app-container { padding: 0.5rem; padding-top: 1rem; width: 100%; }
+  .form-card { border-radius: 12px; height: auto; max-height: none; width: 100%; max-width: 100%; }
   .card-header { padding: 1rem; }
   .form-body { padding: 1.2rem 1rem; }
   .logo-main { width: 45px; height: 45px; margin-bottom: 0.5rem; }
