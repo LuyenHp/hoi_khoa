@@ -68,7 +68,7 @@ export default function App() {
         {!submitted ? (
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="form-card">
             <div className="card-header">
-              <img src={logoImg} alt="Logo" className="logo-main" />
+              <img src={logoImg} alt="Logo" className="logo-main" style={{ mixBlendMode: 'multiply' }} />
               <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>HỘI KHÓA 20 NĂM</h2>
               <p className="script-text">Ngày Trở Về</p>
               <p style={{ color: '#64748b', fontSize: '0.875rem' }}>THCS Tiên Thắng (2002 - 2006)</p>
@@ -139,7 +139,7 @@ export default function App() {
           <div className="modal-overlay" onClick={() => setShowQR(false)}>
             <motion.div initial={{ y: 50 }} animate={{ y: 0 }} className="modal-content" onClick={e => e.stopPropagation()}>
               <div id="qr-capture-area" style={{ background: 'white', padding: '2rem', borderRadius: '20px' }}>
-                <img src={logoImg} alt="Logo" style={{ width: '50px', marginBottom: '1rem' }} />
+                <img src={logoImg} alt="Logo" style={{ width: '50px', marginBottom: '1rem', mixBlendMode: 'multiply' }} />
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>THƯ MỜI HỘI KHÓA</h3>
                 <div className="qr-container">
                   <QRCodeSVG 
