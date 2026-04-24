@@ -116,13 +116,35 @@ export default function App() {
     <div className="app-container">
       <div className="background-image" style={{ backgroundImage: `url(${backdropImg})` }} />
       
-      <div className="tab-nav">
-        <button className={view === 'form' ? 'active' : ''} onClick={() => setView('form')}>
-          <ClipboardList size={18} style={{ marginBottom: '-4px', marginRight: '6px' }} /> ĐĂNG KÝ
-        </button>
-        <button className={view === 'list' ? 'active' : ''} onClick={() => { setView('list'); fetchRegistrations(); }}>
-          <Users size={18} style={{ marginBottom: '-4px', marginRight: '6px' }} /> THÀNH VIÊN ({registrations.length})
-        </button>
+      {/* Modern Tab Navigation */}
+      <div className="tab-nav-wrapper">
+        <div className="tab-nav">
+          {['form', 'list'].map((t) => (
+            <button 
+              key={t}
+              className={`tab-item ${view === t ? 'active' : ''}`} 
+              onClick={() => {
+                setView(t)
+                if (t === 'list') fetchRegistrations()
+              }}
+            >
+              {view === t && (
+                <motion.div 
+                  layoutId="activeTab"
+                  className="active-bg"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="tab-content-inner" style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                {t === 'form' ? (
+                  <><ClipboardList size={16} /> ĐĂNG KÝ</>
+                ) : (
+                  <><Users size={16} /> THÀNH VIÊN ({registrations.length})</>
+                )}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
