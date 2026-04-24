@@ -274,6 +274,57 @@ body {
   box-shadow: 0 4px 15px rgba(0, 114, 210, 0.3);
 }
 
+/* Stats Dashboard */
+.stats-dashboard {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 1rem;
+  scrollbar-width: none; /* Hide scrollbar for clean look */
+}
+
+.stats-dashboard::-webkit-scrollbar { display: none; }
+
+.stat-card {
+  flex: 0 0 auto;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  min-width: 100px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stat-card.active {
+  background: #0072d2;
+  border-color: #0072d2;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 114, 210, 0.2);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #1e293b;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-card.active .stat-value { color: white; }
+
+.stat-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.stat-card.active .stat-label { color: rgba(255,255,255,0.8); }
+
 /* Member List */
 .member-list-container {
   width: 100%;

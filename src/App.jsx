@@ -30,6 +30,7 @@ export default function App() {
   const [userPhoto, setUserPhoto] = useState(null)
   const [view, setView] = useState('form') // 'form' hoặc 'list'
   const [registrations, setRegistrations] = useState([])
+  const [selectedClass, setSelectedClass] = useState('ALL')
 
   useEffect(() => {
     fetch('https://provinces.open-api.vn/api/p/')
@@ -225,8 +226,35 @@ export default function App() {
           )
         ) : (
           <motion.div key="list" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="member-list-container">
+            
+            {/* Class Stats Dashboard */}
+            <div className="stats-dashboard">
+              <div 
+                className={`stat-card ${selectedClass === 'ALL' ? 'active' : ''}`}
+                onClick={() => setSelectedClass('ALL')}
+              >
+                <div className="stat-value">{registrations.length}</div>
+                <div className="stat-label">TỔNG SỐ</div>
+              </div>
+              {CLASSES.map(cls => {
+                const count = registrations.filter(r => r.class_name === cls).length
+                return (
+                  <div 
+                    key={cls} 
+                    className={`stat-card ${selectedClass === cls ? 'active' : ''}`}
+                    onClick={() => setSelectedClass(cls)}
+                  >
+                    <div className="stat-value">{count}</div>
+                    <div className="stat-label">LỚP {cls}</div>
+                  </div>
+                )
+              })}
+            </div>
+
             <div className="member-grid">
-              {registrations.map((reg) => (
+              {registrations
+                .filter(reg => selectedClass === 'ALL' || reg.class_name === selectedClass)
+                .map((reg) => (
                 <div key={reg.id} className="member-card">
                   <div className="member-photo-wrap">
                     {reg.photo ? <img src={reg.photo} alt={reg.full_name} className="member-photo" /> : <div className="member-photo-placeholder">{reg.full_name.charAt(0)}</div>}
