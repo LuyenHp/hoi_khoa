@@ -49,34 +49,25 @@ export default function App() {
     const element = document.getElementById('qr-capture-area')
     if (element) {
       try {
-        setLoading(true)
-        await new Promise(resolve => setTimeout(resolve, 800))
+        // Đợi logo và QR hoàn thiện render
+        await new Promise(resolve => setTimeout(resolve, 500))
         
-        // Sử dụng toBlob để tăng tính tương thích trên Safari/Mobile
-        const blob = await htmlToImage.toBlob(element, { 
+        const dataUrl = await htmlToImage.toPng(element, { 
           pixelRatio: 2, 
-          backgroundColor: '#ffffff',
-          skipFonts: true, // Thử bỏ qua font nếu gây lỗi render
+          backgroundColor: '#ffffff'
         })
         
-        if (blob) {
-          const url = window.URL.createObjectURL(blob)
-          const link = document.createElement('a')
-          link.href = url
-          link.download = 'Thiep-Moi-Hoi-Khoa.png'
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
-          window.URL.revokeObjectURL(url)
-        }
-        setLoading(false)
+        const link = document.createElement('a')
+        link.download = 'Thiep-Moi-Hoi-Khoa.png'
+        link.href = dataUrl
+        link.click()
       } catch (err) {
         console.error('Download error:', err)
-        alert('Có lỗi khi tạo ảnh! Nếu bạn dùng iPhone, hãy chụp màn hình thiệp mời này nhé.')
-        setLoading(false)
+        alert('Có lỗi khi tải ảnh thiệp!')
       }
     }
   }
+
 
 
 
