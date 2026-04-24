@@ -51,9 +51,13 @@ export default function App() {
     
     try {
       setLoading(true)
+      // Tăng pixelRatio lên 3 để đảm bảo độ nét tuyệt đối cho Logo và mã QR
       const dataUrl = await htmlToImage.toPng(element, { 
         backgroundColor: '#ffffff',
-        pixelRatio: 1.5 // Cân bằng giữa tốc độ và chất lượng
+        pixelRatio: 3,
+        style: {
+          transform: 'scale(1)', // Đảm bảo không bị méo khi capture
+        }
       })
       
       if (dataUrl) {
@@ -153,12 +157,13 @@ export default function App() {
                 <div className="qr-container">
                   <QRCodeCanvas 
                     value="https://20nam.gdo.vn" 
-                    size={220} 
+                    size={400} 
+                    style={{ width: '220px', height: '220px' }}
                     level="H" 
                     imageSettings={{
                       src: logoImg,
-                      height: 50,
-                      width: 50,
+                      height: 80,
+                      width: 80,
                       excavate: true,
                     }}
                   />
