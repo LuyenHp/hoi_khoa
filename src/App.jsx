@@ -29,6 +29,7 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [showQR, setShowQR] = useState(false)
+  const [capturedImage, setCapturedImage] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -51,29 +52,24 @@ export default function App() {
     
     try {
       setLoading(true)
-      // Tăng pixelRatio lên 3 để đảm bảo độ nét tuyệt đối cho Logo và mã QR
       const dataUrl = await htmlToImage.toPng(element, { 
         backgroundColor: '#ffffff',
-        pixelRatio: 3,
-        style: {
-          transform: 'scale(1)', // Đảm bảo không bị méo khi capture
-        }
+        pixelRatio: 3, 
       })
       
       if (dataUrl) {
-        // Thay vì tải về, mở một tab mới hoặc gán vào một thẻ img để user tự lưu
-        // Cách này cực nhanh trên điện thoại
-        const newWindow = window.open()
-        newWindow.document.write(`<img src="${dataUrl}" style="width:100%; max-width:500px; margin:auto; display:block;" />`)
-        newWindow.document.write('<p style="text-align:center; font-family:sans-serif; margin-top:20px;">Nhấn giữ vào ảnh để lưu về điện thoại của bạn!</p>')
+        setCapturedImage(dataUrl)
+        const link = document.createElement('a')
+        link.download = 'ThiepMoi.png'
+        link.href = dataUrl
+        link.click()
       }
       setLoading(false)
     } catch (err) {
       setLoading(false)
-      alert('Lỗi: ' + err.message)
+      console.error(err)
     }
   }
-
 
   return (
     <div className="app-container">
@@ -143,36 +139,50 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <div className="float-btn pulse-ani" onClick={() => setShowQR(true)}>
+      <div className="float-btn pulse-ani" onClick={() => { setShowQR(true); setCapturedImage(null); }}>
         <QrCode size={32} />
       </div>
 
       <AnimatePresence>
         {showQR && (
           <div className="modal-overlay" onClick={() => setShowQR(false)}>
-            <motion.div initial={{ y: 50 }} animate={{ y: 0 }} className="modal-content" onClick={e => e.stopPropagation()}>
-              <div id="qr-capture-area" style={{ background: 'white', padding: '2rem', borderRadius: '20px' }}>
-                <img src={logoImg} alt="Logo" style={{ width: '50px', marginBottom: '1rem', mixBlendMode: 'multiply' }} />
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>THƯ MỜI HỘI KHÓA</h3>
-                <div className="qr-container">
-                  <QRCodeCanvas 
-                    value="https://20nam.gdo.vn" 
-                    size={400} 
-                    style={{ width: '220px', height: '220px' }}
-                    level="H" 
-                    imageSettings={{
-                      src: logoImg,
-                      height: 80,
-                      width: 80,
-                      excavate: true,
-                    }}
-                  />
+            <motion.div initial={{ y: 50 }} animate={{ y: 0 }} className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '450px' }}>
+              {capturedImage ? (
+                <div className="animate-fade-in">
+                  <img src={capturedImage} alt="Captured" style={{ width: '100%', borderRadius: '15px' }} />
+                  <div style={{ marginTop: '1.5rem', background: '#f0fdf4', padding: '1rem', borderRadius: '12px' }}>
+                    <p style={{ color: '#166534', fontSize: '0.875rem' }}>Nhấn giữ vào ảnh để lưu nhé!</p>
+                  </div>
+                  <button className="btn-download" onClick={() => setCapturedImage(null)} style={{ background: '#f1f5f9', color: '#64748b', marginTop: '1rem' }}>
+                    Chỉnh sửa thiệp
+                  </button>
                 </div>
-                <p style={{ fontSize: '0.75rem', color: '#64748b' }}>Quét mã để đăng ký tham gia</p>
-              </div>
-              <button className="btn-download" onClick={handleDownloadQR}>
-                <Download size={18} style={{ marginRight: '8px' }} /> TẢI THIỆP MỜI
-              </button>
+              ) : (
+                <>
+                  <div id="qr-capture-area" style={{ background: 'white', padding: '2.5rem 2rem', borderRadius: '20px' }}>
+                    <img src={logoImg} alt="Logo" style={{ width: '60px', marginBottom: '1rem', mixBlendMode: 'multiply' }} />
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>THƯ MỜI HỘI KHÓA</h3>
+                    <p className="script-text">Ngày Trở Về</p>
+                    <div className="qr-container">
+                      <QRCodeCanvas 
+                        value="https://20nam.gdo.vn" 
+                        size={400} 
+                        style={{ width: '220px', height: '220px' }}
+                        level="H"
+                        imageSettings={{
+                          src: logoImg,
+                          height: 80,
+                          width: 80,
+                          excavate: true,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <button className="btn-download" onClick={handleDownloadQR} disabled={loading}>
+                    {loading ? 'Đang tạo ảnh...' : 'TẠO ẢNH THIỆP MỜI'}
+                  </button>
+                </>
+              )}
               <div style={{ marginTop: '1rem', cursor: 'pointer', color: '#64748b' }} onClick={() => setShowQR(false)}>Đóng</div>
             </motion.div>
           </div>
