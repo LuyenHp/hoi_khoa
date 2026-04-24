@@ -85,23 +85,26 @@ export default function App() {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="form-card">
             <div className="card-header">
               <img src={logoImg} alt="Logo" className="logo-main" style={{ mixBlendMode: 'multiply' }} />
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>HỘI KHÓA 20 NĂM</h2>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 800 }}>HỘI KHÓA 20 NĂM</h2>
               <p className="script-text">Ngày Trở Về</p>
-              <p style={{ color: '#64748b', fontSize: '0.875rem' }}>THCS Tiên Thắng (2002 - 2006)</p>
+              <p style={{ color: '#64748b', fontSize: '0.75rem' }}>THCS Tiên Thắng (2002 - 2006)</p>
             </div>
 
             <form onSubmit={handleSubmit} className="form-body">
-              <div className="form-group">
-                <label className="label">Họ và Tên</label>
-                <input required name="full_name" className="input" onChange={e => setFormData({...formData, full_name: e.target.value})} placeholder="Nguyễn Văn A" />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <label className="label">Họ và Tên</label>
+                  <input required name="full_name" className="input" onChange={e => setFormData({...formData, full_name: e.target.value})} placeholder="Nguyễn Văn A" />
+                </div>
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <label className="label">Số điện thoại</label>
+                  <input required type="tel" className="input" onChange={e => setFormData({...formData, phone: e.target.value})} placeholder="09xx..." />
+                </div>
               </div>
-              <div className="form-group">
-                <label className="label">Số điện thoại</label>
-                <input required type="tel" className="input" onChange={e => setFormData({...formData, phone: e.target.value})} placeholder="09xx..." />
-              </div>
+              
               <div className="form-group">
                 <label className="label">Nơi ở hiện tại</label>
-                <input required className="input" onChange={e => setFormData({...formData, location: e.target.value})} placeholder="Thành phố đang sống..." />
+                <input required className="input" onChange={e => setFormData({...formData, location: e.target.value})} placeholder="Thành phố hiện tại..." />
               </div>
               <div className="form-group">
                 <label className="label">Lớp học</label>
