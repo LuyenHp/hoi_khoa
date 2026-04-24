@@ -58,6 +58,16 @@ export default function App() {
       
       if (dataUrl) {
         setCapturedImage(dataUrl)
+        
+        // Tự động tải xuống cho PC
+        const link = document.createElement('a')
+        link.href = dataUrl
+        link.download = 'Thiep-Moi-Hoi-Khoa.png'
+        document.body.appendChild(link)
+        setTimeout(() => {
+          link.click()
+          document.body.removeChild(link)
+        }, 100)
       }
       setLoading(false)
     } catch (err) {
@@ -145,21 +155,21 @@ export default function App() {
                       <p className="script-text" style={{ fontSize: '2rem', margin: '0.5rem 0' }}>Ngày Trở Về</p>
                       
                       {/* Vùng QR sử dụng SVG nguyên bản để html-to-image dễ capture */}
-                      <div style={{ position: 'relative', display: 'inline-block', padding: '10px', background: 'white' }}>
-                        <QRCodeSVG 
-                          value="https://20nam.gdo.vn" 
-                          size={200} 
-                          level="H"
-                        />
-                        {/* Đè logo lên trên bằng ảnh rời để đảm bảo capture được */}
-                        <div style={{ 
-                          position: 'absolute', top: '50%', left: '50%', 
-                          transform: 'translate(-50%, -50%)', 
-                          background: 'white', padding: '4px', borderRadius: '4px' 
-                        }}>
-                          <img src={logoImg} style={{ width: '40px', height: '40px', mixBlendMode: 'multiply', imageRendering: '-webkit-optimize-contrast' }} alt="QR Logo" />
-                        </div>
+                    <div style={{ position: 'relative', display: 'inline-block', background: 'white' }}>
+                      <QRCodeSVG 
+                        value="https://20nam.gdo.vn" 
+                        size={800} 
+                        style={{ width: '220px', height: '220px' }}
+                        level="H"
+                      />
+                      <div style={{ 
+                        position: 'absolute', top: '50%', left: '50%', 
+                        transform: 'translate(-50%, -50%)',
+                        width: '50px', height: '50px'
+                      }}>
+                        <img src={logoImg} style={{ width: '100%', height: '100%', mixBlendMode: 'multiply' }} alt="QR Logo" />
                       </div>
+                    </div>
                       
                       <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '1rem' }}>Mã QR đăng ký tham gia</p>
                       <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0072d2', marginTop: '0.5rem' }}>20NAM.GDO.VN</p>
