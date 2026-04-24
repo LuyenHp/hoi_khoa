@@ -134,9 +134,25 @@ export default function App() {
               </div>
               <div className="form-group">
                 <label className="label">Ngành nghề & Đơn vị</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                  <input required className="input" onChange={e => setFormData({...formData, industry: e.target.value})} placeholder="Ngành nghề" />
-                  <input required className="input" onChange={e => setFormData({...formData, company: e.target.value})} placeholder="Đơn vị" />
+                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '0.5rem' }}>
+                  <select 
+                    required 
+                    className="input" 
+                    onChange={e => setFormData({...formData, industry: e.target.value})}
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Chọn ngành nghề</option>
+                    <option value="Kinh doanh / Buôn bán">Kinh doanh / Buôn bán</option>
+                    <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+                    <option value="Xây dựng / Kiến trúc">Xây dựng / Kiến trúc</option>
+                    <option value="Giáo dục / Đào tạo">Giáo dục / Đào tạo</option>
+                    <option value="Y tế / Dược phẩm">Y tế / Dược phẩm</option>
+                    <option value="Cơ khí / Sản xuất">Cơ khí / Sản xuất</option>
+                    <option value="Tài chính / Ngân hàng">Tài chính / Ngân hàng</option>
+                    <option value="Lao động tự do">Lao động tự do</option>
+                    <option value="Khác">Khác...</option>
+                  </select>
+                  <input required className="input" onChange={e => setFormData({...formData, company: e.target.value})} placeholder="Đơn vị công tác" />
                 </div>
               </div>
               <button disabled={loading} className="btn-submit">{loading ? 'Đang gửi...' : 'GỬI THÔNG TIN'}</button>
