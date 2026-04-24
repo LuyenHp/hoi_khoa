@@ -47,23 +47,29 @@ export default function App() {
 
   const handleDownloadQR = async () => {
     const element = document.getElementById('qr-capture-area')
-    if (!element) return alert('Không tìm thấy vùng thiệp mời!')
+    if (!element) return
     
     try {
-      alert('Đang tạo ảnh, vui lòng đợi trong giây lát...')
-      const dataUrl = await htmlToImage.toPng(element, { pixelRatio: 2, backgroundColor: '#ffffff' })
+      setLoading(true)
+      const dataUrl = await htmlToImage.toPng(element, { 
+        backgroundColor: '#ffffff',
+        pixelRatio: 1.5 // Cân bằng giữa tốc độ và chất lượng
+      })
+      
       if (dataUrl) {
-        const link = document.createElement('a')
-        link.download = 'ThiepMoi.png'
-        link.href = dataUrl
-        link.click()
-      } else {
-        alert('Không thể tạo dữ liệu ảnh!')
+        // Thay vì tải về, mở một tab mới hoặc gán vào một thẻ img để user tự lưu
+        // Cách này cực nhanh trên điện thoại
+        const newWindow = window.open()
+        newWindow.document.write(`<img src="${dataUrl}" style="width:100%; max-width:500px; margin:auto; display:block;" />`)
+        newWindow.document.write('<p style="text-align:center; font-family:sans-serif; margin-top:20px;">Nhấn giữ vào ảnh để lưu về điện thoại của bạn!</p>')
       }
+      setLoading(false)
     } catch (err) {
-      alert('Lỗi khi tải: ' + err.message)
+      setLoading(false)
+      alert('Lỗi: ' + err.message)
     }
   }
+
 
   return (
     <div className="app-container">
