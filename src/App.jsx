@@ -56,7 +56,11 @@ export default function App() {
 
     if (!formData.class_name) return alert('Vui lòng chọn lớp!')
     setLoading(true)
-    const { error } = await supabase.from('alumni_registrations').insert([formData])
+    
+    // Gửi dữ liệu bao gồm cả ảnh cá nhân (nếu có)
+    const { error } = await supabase.from('alumni_registrations').insert([
+      { ...formData, photo: userPhoto }
+    ])
     if (error) {
       alert('Lỗi: ' + error.message)
       setLoading(false)

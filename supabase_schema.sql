@@ -8,6 +8,7 @@ CREATE TABLE alumni_registrations (
   class_name TEXT NOT NULL,
   industry TEXT NOT NULL,
   company TEXT NOT NULL,
+  photo TEXT, -- Lưu chuỗi Base64 của ảnh cá nhân
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
