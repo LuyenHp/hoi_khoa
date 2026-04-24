@@ -1,0 +1,15 @@
+{
+  "short_name": "20 Năm Hội Khóa",
+  "name": "20 Năm Hội Khóa - Ngày Trở Về",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0072d2",
+  "background_color": "#ffffff"
+}
