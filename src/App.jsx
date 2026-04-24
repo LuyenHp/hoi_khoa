@@ -10,9 +10,14 @@ import {
   Send, 
   CheckCircle2, 
   QrCode,
-  Sparkles
+  Sparkles,
+  Download,
+  X
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import { QRCodeCanvas } from 'qrcode.react'
+import * as htmlToImage from 'html-to-image'
+
 
 const CLASSES = ['9A', '9B', '9C', '9D', '9E']
 
@@ -59,7 +64,19 @@ export default function App() {
     }
   }
 
+  const handleDownloadQR = async () => {
+    const element = document.getElementById('qr-card')
+    if (element) {
+      const dataUrl = await htmlToImage.toPng(element, { quality: 1.0 })
+      const link = document.createElement('a')
+      link.download = 'Thiep-Moi-Hoi-Khoa-20-Nam.png'
+      link.href = dataUrl
+      link.click()
+    }
+  }
+
   const handleChange = (e) => {
+
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
@@ -69,10 +86,11 @@ export default function App() {
       <div 
         className="background-container" 
         style={{ 
-          backgroundImage: `url('https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80&w=2070')`,
-          opacity: 0.15 
+          backgroundImage: `url('./src/assets/backdrop.png')`,
+          opacity: 1
         }}
       />
+
       
       <AnimatePresence mode="wait">
         {!submitted ? (
@@ -247,21 +265,85 @@ export default function App() {
 
       {showQR && (
         <motion.div 
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
           onClick={() => setShowQR(false)}
         >
-          <div className="bg-white p-8 rounded-3xl shadow-2xl text-center" onClick={e => e.stopPropagation()}>
-            <h3 className="text-xl font-bold mb-4">Quét mã để đăng ký</h3>
-            <div className="bg-white p-4 inline-block rounded-xl border-4 border-blue-500">
-               {/* Replace with actual domain later */}
-               <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(window.location.href)}`} alt="QR Code" />
+          <motion.div 
+            initial={{ scale: 0.9, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            className="w-full max-w-sm relative"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* The Downloadable Card */}
+            <div id="qr-card" className="bg-white rounded-3xl overflow-hidden shadow-2xl relative">
+              {/* Card Background Overlay */}
+              <div 
+                className="absolute inset-0 opacity-20 pointer-events-none"
+                style={{ 
+                  backgroundImage: `url('./src/assets/backdrop.png')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              />
+              
+              <div className="relative p-8 text-center space-y-6">
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-extrabold text-blue-600 tracking-tight">THIỆP MỜI</h3>
+                  <p className="script-text text-3xl">Hội Khóa 20 Năm</p>
+                </div>
+
+                <div className="bg-white p-6 inline-block rounded-3xl shadow-inner border-2 border-blue-100 mx-auto">
+                    <QRCodeCanvas 
+                      value={window.location.href} 
+                      size={180}
+                      level={"H"}
+                      includeMargin={false}
+                      imageSettings={{
+                        src: "./src/assets/vite.svg",
+                        x: undefined,
+                        y: undefined,
+                        height: 40,
+                        width: 40,
+                        excavate: true,
+                      }}
+                    />
+                </div>
+
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold text-gray-700">Quét mã để đăng ký tham dự</p>
+                  <p className="text-xs text-blue-500 font-medium tracking-widest uppercase">20nam.gdo.vn</p>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100">
+                  <p className="text-[10px] text-gray-400 italic">
+                    \"Thanh xuân của chúng ta đẹp nhất là khi ở bên nhau\"
+                  </p>
+                </div>
+              </div>
             </div>
-            <p className="mt-4 text-sm text-gray-500">Mời bạn bè cùng quét mã!</p>
-          </div>
+
+            {/* Actions */}
+            <div className="mt-6 flex gap-4">
+              <button 
+                onClick={handleDownloadQR}
+                className="btn-primary flex-1 py-3"
+              >
+                <Download size={18} /> Tải ảnh về
+              </button>
+              <button 
+                onClick={() => setShowQR(false)}
+                className="bg-white/20 backdrop-blur-md text-white p-3 rounded-2xl hover:bg-white/30 transition-all"
+              >
+                <X size={24} />
+              </button>
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </div>
   )
 }
+
