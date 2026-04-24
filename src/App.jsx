@@ -15,11 +15,12 @@ import {
   X
 } from 'lucide-react'
 import confetti from 'canvas-confetti'
-import { QRCodeCanvas } from 'qrcode.react'
+import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react'
 import * as htmlToImage from 'html-to-image'
 
 import backdropImg from './assets/backdrop.png'
-import logoImg from './assets/vite.svg'
+import logoImg from './assets/logo.png'
+
 
 
 
@@ -71,13 +72,25 @@ export default function App() {
   const handleDownloadQR = async () => {
     const element = document.getElementById('qr-card')
     if (element) {
-      const dataUrl = await htmlToImage.toPng(element, { quality: 1.0 })
-      const link = document.createElement('a')
-      link.download = 'Thiep-Moi-Hoi-Khoa-20-Nam.png'
-      link.href = dataUrl
-      link.click()
+      try {
+        // Đợi một chút để QR kịp render ổn định
+        await new Promise(resolve => setTimeout(resolve, 500))
+        
+        const dataUrl = await htmlToImage.toPng(element, { 
+          quality: 1.0,
+          pixelRatio: 2, // Tăng chất lượng ảnh
+        })
+        const link = document.createElement('a')
+        link.download = 'Thiep-Moi-Hoi-Khoa-20-Nam.png'
+        link.href = dataUrl
+        link.click()
+      } catch (err) {
+        console.error('Lỗi khi tải ảnh:', err)
+        alert('Không thể tải ảnh, vui lòng thử lại!')
+      }
     }
   }
+
 
   const handleChange = (e) => {
 
@@ -113,8 +126,9 @@ export default function App() {
                 transition={{ duration: 0.5 }}
               >
                 <div className="flex justify-center mb-4">
-                  <Sparkles className="text-blue-500 w-12 h-12" />
+                  <img src={logoImg} alt="Logo" className="w-24 h-24 object-contain shadow-sm rounded-full bg-white p-1" />
                 </div>
+
                 <h1 className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-2 tracking-tight">
                   HỘI KHÓA 20 NĂM
                 </h1>
@@ -258,15 +272,19 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Floating QR Link for Testing/Demo */}
+      {/* Floating QR Link */}
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setShowQR(!showQR)}
-        className="fixed bottom-6 right-6 bg-white p-3 rounded-full shadow-xl border border-gray-100 hover:text-blue-500"
+        className="fixed bottom-6 right-6 bg-white pl-4 pr-6 py-3 rounded-full shadow-2xl border border-blue-100 font-bold text-blue-600 flex items-center gap-3 z-40 pulse-animation"
       >
-        <QrCode size={24} />
+        <div className="bg-blue-600 p-2 rounded-full text-white">
+          <QrCode size={20} />
+        </div>
+        <span>Mời bạn bè</span>
       </motion.button>
+
 
       {showQR && (
         <motion.div 
@@ -307,7 +325,7 @@ export default function App() {
                 </div>
 
                 <div className="bg-white p-6 inline-block rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-4 border-blue-50/50 mx-auto">
-                    <QRCodeCanvas 
+                    <QRCodeSVG 
                       value={window.location.href} 
                       size={200}
                       level={"H"}
@@ -318,11 +336,10 @@ export default function App() {
                         src: logoImg,
                         x: undefined,
                         y: undefined,
-                        height: 44,
-                        width: 44,
+                        height: 60,
+                        width: 60,
                         excavate: true,
                       }}
-
                     />
                 </div>
 
