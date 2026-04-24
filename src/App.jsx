@@ -50,7 +50,10 @@ export default function App() {
       
       const dataUrl = await htmlToImage.toPng(element, { 
         backgroundColor: '#ffffff',
-        pixelRatio: 2.5
+        pixelRatio: 4, // Mức siêu sắc nét
+        style: {
+          imageRendering: 'crisp-edges'
+        }
       })
       
       if (dataUrl) {
@@ -154,7 +157,7 @@ export default function App() {
                           transform: 'translate(-50%, -50%)', 
                           background: 'white', padding: '4px', borderRadius: '4px' 
                         }}>
-                          <img src={logoImg} style={{ width: '40px', height: '40px', mixBlendMode: 'multiply' }} alt="QR Logo" />
+                          <img src={logoImg} style={{ width: '40px', height: '40px', mixBlendMode: 'multiply', imageRendering: '-webkit-optimize-contrast' }} alt="QR Logo" />
                         </div>
                       </div>
                       
