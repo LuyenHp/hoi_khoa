@@ -227,7 +227,7 @@ body {
   .logo-main { width: 50px; height: 50px; margin-bottom: 0.5rem; }
   .script-text { font-size: 1.6rem; }
   .form-group { margin-bottom: 1rem; }
-  .input { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
+  .input { padding: 0.6rem 0.8rem; font-size: 16px; }
   .btn-submit { padding: 0.8rem; }
   .class-option { padding: 0.4rem; font-size: 0.875rem; }
 }
