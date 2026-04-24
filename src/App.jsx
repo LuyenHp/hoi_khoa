@@ -155,7 +155,7 @@ export default function App() {
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>THƯ MỜI HỘI KHÓA</h3>
                 <div className="qr-container">
                   <QRCodeSVG 
-                    value={window.location.href} 
+                    value="https://20nam.gdo.vn" 
                     size={220} 
                     level="H" 
                     imageSettings={{
