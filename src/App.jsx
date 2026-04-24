@@ -126,8 +126,9 @@ export default function App() {
                 transition={{ duration: 0.5 }}
               >
                 <div className="flex justify-center mb-4">
-                  <img src={logoImg} alt="Logo" className="w-24 h-24 object-contain shadow-sm rounded-full bg-white p-1" />
+                  <img src={logoImg} alt="Logo" className="w-20 h-20 object-contain shadow-md rounded-full bg-white p-1" />
                 </div>
+
 
                 <h1 className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-2 tracking-tight">
                   HỘI KHÓA 20 NĂM
@@ -272,18 +273,17 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Floating QR Link */}
+      {/* Floating QR Link - Large Circular Design */}
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.1, rotate: 5 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setShowQR(!showQR)}
-        className="fixed bottom-6 right-6 bg-white pl-4 pr-6 py-3 rounded-full shadow-2xl border border-blue-100 font-bold text-blue-600 flex items-center gap-3 z-40 pulse-animation"
+        className="fixed bottom-6 right-6 w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shadow-[0_0_20px_rgba(0,135,205,0.4)] border-4 border-white text-white flex flex-col items-center justify-center gap-1 z-40 pulse-animation-strong"
       >
-        <div className="bg-blue-600 p-2 rounded-full text-white">
-          <QrCode size={20} />
-        </div>
-        <span>Mời bạn bè</span>
+        <QrCode size={24} />
+        <span className="text-[10px] font-bold uppercase tracking-tighter">Mời bạn</span>
       </motion.button>
+
 
 
       {showQR && (
@@ -324,7 +324,8 @@ export default function App() {
                   <p className="script-text text-4xl">Hội Khóa 20 Năm</p>
                 </div>
 
-                <div className="bg-white p-6 inline-block rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-4 border-blue-50/50 mx-auto">
+                <div className="relative inline-block mx-auto">
+                  <div className="bg-white p-6 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-4 border-blue-50/50">
                     <QRCodeSVG 
                       value={window.location.href} 
                       size={200}
@@ -332,16 +333,14 @@ export default function App() {
                       includeMargin={false}
                       bgColor={"#ffffff"}
                       fgColor={"#1e293b"}
-                      imageSettings={{
-                        src: logoImg,
-                        x: undefined,
-                        y: undefined,
-                        height: 60,
-                        width: 60,
-                        excavate: true,
-                      }}
                     />
+                  </div>
+                  {/* Overlay Logo with White Outline to blend better */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full p-0.5 shadow-sm border-2 border-white overflow-hidden">
+                    <img src={logoImg} alt="QR Logo" className="w-full h-full object-cover scale-110" />
+                  </div>
                 </div>
+
 
                 <div className="space-y-3">
                   <p className="text-lg font-bold text-slate-800">Quét mã để đăng ký</p>
