@@ -19,10 +19,18 @@ export default function App() {
   const [formData, setFormData] = useState({
     full_name: '', phone: '', location: '', class_name: '', industry: '', company: ''
   })
+  const [provinces, setProvinces] = useState([])
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [showQR, setShowQR] = useState(false)
   const [capturedImage, setCapturedImage] = useState(null)
+
+  useEffect(() => {
+    fetch('https://provinces.open-api.vn/api/p/')
+      .then(res => res.json())
+      .then(data => setProvinces(data))
+      .catch(err => console.error(err))
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -122,7 +130,18 @@ export default function App() {
               
               <div className="form-group">
                 <label className="label">Nơi ở hiện tại</label>
-                <input required className="input" onChange={e => setFormData({...formData, location: e.target.value})} placeholder="Thành phố hiện tại..." />
+                <select 
+                  required 
+                  className="input" 
+                  onChange={e => setFormData({...formData, location: e.target.value})}
+                  defaultValue=""
+                >
+                  <option value="" disabled>Chọn Tỉnh / Thành phố</option>
+                  {provinces.map(p => (
+                    <option key={p.code} value={p.name}>{p.name}</option>
+                  ))}
+                  <option value="Nước ngoài">Nước ngoài</option>
+                </select>
               </div>
               <div className="form-group">
                 <label className="label">Lớp học</label>
